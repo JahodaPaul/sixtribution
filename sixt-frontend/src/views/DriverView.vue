@@ -1,6 +1,7 @@
 <script setup>
 import { GoogleMap, Marker, InfoWindow } from 'vue3-google-map';
 import {computed, onMounted, ref, watch } from "vue";
+import DummyComponent from "../components/DummyComponent.vue"
 
 const map = ref(null)
 
@@ -15,7 +16,6 @@ watch(() => map.value?.ready, (ready) => {
   directionsService = new map.value.api.DirectionsService();
   directionsDisplay = new map.value.api.DirectionsRenderer();
   directionsDisplay.setMap(map.value.map);
-  Route()
 })
 
 const myPosition = ref({lat: 48.141922, lng: 11.558181})
@@ -42,22 +42,25 @@ const cars = [{
 const center = { lat: 48.145, lng: 11.550 }
 
 const carIcon = "src/assets/c_pin.png"
+const myLocationIcon = "src/assets/my_icon.png"
 
 const getCarInfo = (marker) => {
   const info = `<p><b>Car to pick up</b></p>
                 ${marker.name}<br>
                 ${marker.addr}<br>
-                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer">Pick up and drive!</div>`
+                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
+                    onclick="window.location.href = '/driver?lat=${marker.position.lat}&lng=${marker.position.lng}'">Pick up and drive!</div>`
   return info
 }
 
 
-const Route = () => {
-  console.log("called route")
-  var start = new map.value.api.LatLng(48.141922, 11.558181);
-  var end = new map.value.api.LatLng(48.140033, 11.566841);
+const Route = (end) => {
+  console.log("called route with arguments: ")
+  console.log(end)
+  //var start = new map.value.api.LatLng(48.141922, 11.558181);
+  //var end = new map.value.api.LatLng(48.140033, 11.566841);
   var request = {
-    origin: start,
+    origin: myPosition.value,
     destination: end,
     travelMode: map.value.api.TravelMode.TRANSIT
   };
@@ -70,10 +73,31 @@ const Route = () => {
     }
   });
 }
+
+const getContent = async () => {
+  let i = await import('../components/DummyComponent.vue')
+  console.log(i)
+  return DummyComponent
+  return i
+  return "content"
+}
+
+const setMarkers = () => {
+  console.log("setting markers")
+  const gMap = map.value.mapRef;
+  const marker = new map.value.api.Marker({
+    position: center,
+    map,
+    title: "Uluru (Ayers Rock)",
+  });
+  console.log(marker)
+
+}
 </script>
 
 <template>
   <div class="bg-red-500 h-full">
+{{x}}
 
     <div class="h-full">
       <GoogleMap ref="map"
@@ -87,6 +111,8 @@ const Route = () => {
             <InfoWindow :options="{ position: marker.position, content: getCarInfo(marker)}" />
           </Marker>
         </template>
+        <Marker :options='{ position: myPosition, icon: myLocationIcon }'>
+        </Marker>
       </GoogleMap>
     </div>
   </div>
