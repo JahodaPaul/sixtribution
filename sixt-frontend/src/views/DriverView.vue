@@ -1,4 +1,3 @@
-<script src="../../env.d.ts"></script>
 <script setup>
 import { GoogleMap, Marker, InfoWindow } from 'vue3-google-map';
 import {computed, onMounted, ref, watch } from "vue";
@@ -13,18 +12,19 @@ watch(() => map.value?.ready, (ready) => {
 
   // do something with the api using `mapRef.value.api`
   // or with the map instance using `mapRef.value.map`
-  console.log(ready)
-  console.log(map.value.api)
   directionsService = new map.value.api.DirectionsService();
   directionsDisplay = new map.value.api.DirectionsRenderer();
+  directionsDisplay.setMap(map.value.map);
   Route()
 })
+
+const myPosition = ref({lat: 48.141922, lng: 11.558181})
 
 const cars = [{
   s_id: "S_168",
   name: "red BMW",
   position: {
-    lat: 48.141922,
+    lat: 48.241922,
     lng: 11.558181
   },
   id: 0,
@@ -52,17 +52,18 @@ const getCarInfo = (marker) => {
 }
 
 
-function Route() {
+const Route = () => {
   console.log("called route")
-  var start = new google.maps.LatLng(48.141922, 11.558181);
-  var end = new google.maps.LatLng(48.140033, 11.566841);
+  var start = new map.value.api.LatLng(48.141922, 11.558181);
+  var end = new map.value.api.LatLng(48.140033, 11.566841);
   var request = {
     origin: start,
     destination: end,
-    travelMode: google.maps.TravelMode.TRANSIT
+    travelMode: map.value.api.TravelMode.TRANSIT
   };
+  console.log(request)
   directionsService.route(request, function(result, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
+    if (status == map.value.api.DirectionsStatus.OK) {
       directionsDisplay.setDirections(result);
     } else {
       alert("couldn't get directions:" + status);
