@@ -12,9 +12,6 @@ def get_core_update():
                 "is_charging": False,
                 "wants_to_return": False,
                 "charging_station_id": None
-            },
-            1: {
-
             }
         },
     }
@@ -29,8 +26,10 @@ def main():
     core.initialize_stations(5)
 
     # each time stamp corresponds to 1 hour
+    total_sim_duration = core.get_total_simulation_duration()
     while core.get_current_simulation_step() > 0:
-        print(f"Simulation step {core.get_current_simulation_step()}")
+        print(f"Simulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
+
         update_core = get_core_update()
         core.update_fleet(update_core)
 
