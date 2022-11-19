@@ -7,10 +7,6 @@ import Header from './components/Header.vue'
 <template>
   <div class="flex flex-col">
     <Header></Header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
 
     <RouterView />
   </div>
