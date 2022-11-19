@@ -33,6 +33,18 @@ def get_initial_state():
                 "state": "charging"
             }
         },
+        "stations": {
+            0: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "capacity": 3
+            },
+            1: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "capacity": 1
+            }
+        }
     }
 
 
@@ -103,10 +115,10 @@ def get_core_update():
 def main():
     core = Core(10)
 
-    # TODO initialize cars and stations
     initial_state = get_initial_state()
+    # stations have to be initialized first, because cars will update their capacity
+    core.initialize_stations(initial_state["stations"])
     core.initialize_fleet(initial_state["cars"])
-    core.initialize_stations(5)
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()

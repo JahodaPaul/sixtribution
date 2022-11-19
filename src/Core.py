@@ -9,8 +9,8 @@ class Core:
         self.fleet = {}
         self.stations = {}
 
-    def initialize_fleet(self, initial_state_dict):
-        for car_id, car_dict in initial_state_dict.items():
+    def initialize_fleet(self, init_car_state):
+        for car_id, car_dict in init_car_state.items():
             self.fleet[car_id] = Car(car_id=car_id,
                                      longitude=car_dict["latitude"],
                                      latitude=car_dict["longitude"],
@@ -29,9 +29,12 @@ class Core:
 
         self.current_simulation_step -= 1
 
-    def initialize_stations(self, n_stations):
-        for i in range(0, n_stations):
-            self.stations[i] = Station(lat=20.2, lon=20.2, capacity=2, station_id=i)
+    def initialize_stations(self, init_station_state):
+        for station_id, station_dict in init_station_state.items():
+            self.stations[station_id] = Station(longitude=station_dict["longitude"],
+                                                latitude=station_dict["latitude"],
+                                                total_capacity=station_dict["capacity"],
+                                                station_id=station_id)
 
     def get_current_simulation_step(self):
         return self.current_simulation_step
