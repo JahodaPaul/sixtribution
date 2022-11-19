@@ -47,8 +47,9 @@ class Core:
             lat = items[1]
             lon = items[3]
             capacity = int(items[4])
+            operator = items[5]
 
-            station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id)
+            station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id,operator=operator)
             self.stations[station_id] = station
 
     def get_current_simulation_step(self):

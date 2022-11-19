@@ -1,6 +1,6 @@
 
 class Station:
-    def __init__(self, longitude, latitude, total_capacity, station_id):
+    def __init__(self, longitude, latitude, total_capacity, station_id, operator):
         assert isinstance(total_capacity, int)
         assert total_capacity > 0, "Capacity must be greater than 0!"
 
@@ -9,6 +9,7 @@ class Station:
         self.total_capacity = total_capacity
         self.station_id = station_id
         self.occupied_capacity = list()
+        self.operator = operator
 
     def add_to_station(self, car_id):
         if self.total_capacity > len(self.occupied_capacity):
