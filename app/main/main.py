@@ -1,5 +1,4 @@
-from Core import Core
-from app.controllers.Stations import Stations
+from app.main.Core import Core
 import pickle
 import time
 
@@ -121,8 +120,6 @@ def main():
     # stations have to be initialized first, because cars will update their capacity
     core.initialize_stations(initial_state["stations"])
     core.initialize_fleet(initial_state["cars"])
-
-    controller_stations = Stations()
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
