@@ -45,7 +45,7 @@ const sixtStation = "<p><b>SIXT station</b></p>"
   >
     <template v-for="marker in sixts">
       <Marker :options='{ position: marker.position, icon: markerIcon, anchorPoint: null }'>
-      <InfoWindow :options="{ position: marker.position, content: sixtStation + marker.name + marker.addr }" :ref="marker.ref" />
+      <InfoWindow :options="{ position: marker.position, content: sixtStation + marker.name +'\n' + marker.addr }" :ref="marker.ref" />
       </Marker>
     </template>
   </GoogleMap>
