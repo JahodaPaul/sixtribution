@@ -9,18 +9,19 @@ class Core:
         self.fleet = {}
         self.stations = {}
 
-    def initialize_fleet(self, n_cars):
-        for i in range(0, n_cars):
-            self.fleet[i] = Car(i)
+    def initialize_fleet(self, initial_state_dict):
+        for car_id, car_dict in initial_state_dict.items():
+            self.fleet[car_id] = Car(car_id=car_id,
+                                     longitude=car_dict["latitude"],
+                                     latitude=car_dict["longitude"],
+                                     battery_lvl=car_dict["battery_level"],
+                                     charging_station_id=car_dict["station_id"],
+                                     state=car_dict["state"])
 
     def update_fleet(self, update_dict):
         # first update all the vehicles
         for car_id, car_dict in update_dict["cars"].items():
-            self.fleet[car_id].update_position(car_dict["latitude"], car_dict["longitude"])
-            self.fleet[car_id].update_lock_status(car_dict["locked"])
-            self.fleet[car_id].update_battery_level(car_dict["battery_level"])
-            self.fleet[car_id].update_wants_to_return(car_dict["wants_to_return"])
-            self.fleet[car_id].update_charging_status(car_dict["charging_station_id"], car_dict["is_charging"])
+            self.fleet[car_id].update(car_dict)
 
         # then update all the stations
         # for station in self.stations:

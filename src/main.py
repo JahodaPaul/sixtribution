@@ -1,17 +1,99 @@
 from Core import Core
 
 
+def get_initial_state():
+    return {
+        "cars": {
+            0: {
+                "latitude": 20.2,
+                "longitude": 22.2,
+                "battery_level": 50,
+                "station_id": None,
+                "state": "booked"
+            },
+            1: {
+                "latitude": 20.2,
+                "longitude": 55.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "free"
+            },
+            2: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "returning"
+            },
+            3: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "charging"
+            }
+        },
+    }
+
+
 def get_core_update():
+    """
+    This function is meant as a substitute for the actual online update function, it should return data in the form of:
+
+    "state":
+     - booked -> car is in use and we don't know where it will be dropped off
+     - returning -> car is going to a charging station TODO here we recommend the optimal location
+     - free -> car is parked at the charging station and is available for booking or charging
+     - charging -> car is charging at the charging station and is actually charging
+    :return:
+    {
+    "cars" {
+        "car_id": {
+            "latitude": <float latitude>,
+            "longitude": <float longitude >,
+            "battery_level": <int 0-100>,
+            "station_id": <int id>,
+            "state": "booked" / "returning" / "free" (meaning it is parked) / "charging"
+            },
+        0: {
+            "latitude": 20.2,
+            "longitude": 20.2,
+            "battery_level": 50,
+            "station_id": 0,
+            "state": "booked"
+        }
+    }
+    """
+
     core_update = {
         "cars": {
             0: {
-                "latitude": 0,
-                "longitude": 0,
-                "battery_level": 0,
-                "locked": True,
-                "is_charging": False,
-                "wants_to_return": False,
-                "charging_station_id": None
+                "latitude": 20.2,
+                "longitude": 22.2,
+                "battery_level": 50,
+                "station_id": None,
+                "state": "booked"
+            },
+            1: {
+                "latitude": 20.2,
+                "longitude": 55.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "free"
+            },
+            2: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "returning"
+            },
+            3: {
+                "latitude": 20.2,
+                "longitude": 43.2,
+                "battery_level": 50,
+                "station_id": 0,
+                "state": "charging"
             }
         },
     }
@@ -22,7 +104,8 @@ def main():
     core = Core(10)
 
     # TODO initialize cars and stations
-    core.initialize_fleet(10)
+    initial_state = get_initial_state()
+    core.initialize_fleet(initial_state["cars"])
     core.initialize_stations(5)
 
     # each time stamp corresponds to 1 hour
