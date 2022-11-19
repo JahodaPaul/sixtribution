@@ -1,6 +1,6 @@
-from Core import Core
-from app.controllers.Stations import Stations
-
+from app.main.Core import Core
+import pickle
+import time
 
 def get_initial_state():
     return {
@@ -52,7 +52,6 @@ def get_initial_state():
 def get_core_update():
     """
     This function is meant as a substitute for the actual online update function, it should return data in the form of:
-
     "state":
      - booked -> car is in use and we don't know where it will be dropped off
      - returning -> car is going to a charging station TODO here we recommend the optimal location
@@ -114,16 +113,12 @@ def get_core_update():
 
 
 def main():
-    core = Core(10)
+    core = Core(1000)
 
     initial_state = get_initial_state()
     # stations have to be initialized first, because cars will update their capacity
     core.initialize_stations(initial_state["stations"])
     core.initialize_fleet(initial_state["cars"])
-
-    controller_stations = Stations()
-
-    controller_stations.update(core.get_stations())
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
@@ -136,7 +131,15 @@ def main():
         # frontend stuff
         stations = core.get_stations()
         fleet = core.get_fleet()
-        controller_stations.update(stations)
+
+        with open('data/stations_current.pickle', 'wb') as outfile:
+            pickle.dump(stations, outfile)
+
+        with open('data/fleet_current.pickle', 'wb') as outfile:
+            pickle.dump(fleet, outfile)
+
+        time.sleep(1)
+
 
 
 if __name__ == "__main__":

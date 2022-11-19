@@ -22,5 +22,3 @@ class UserList(Resource):
 
     def post(self):
         pass
-
-
