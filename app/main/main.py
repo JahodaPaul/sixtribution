@@ -123,6 +123,8 @@ def main():
 
     controller_stations = Stations()
 
+    controller_stations.update(core.get_stations())
+
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
     while core.get_current_simulation_step() > 0:
