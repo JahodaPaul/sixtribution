@@ -8,7 +8,7 @@ class Station:
         self.latitude = latitude
         self.total_capacity = total_capacity
         self.station_id = station_id
-        self.occupied_capacity = set()
+        self.occupied_capacity = list()
 
     def add_to_station(self, car_id):
         if self.total_capacity > len(self.occupied_capacity):

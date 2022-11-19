@@ -3,8 +3,9 @@ import FetchData from "../components/FetchData.vue";
 import {computed, ref} from "vue";
 
 const endDate = Date.UTC(2022, 11, 20, 10, 0)
+const today = new Date().getTime();
 
-const timer = ref(endDate - Date.now());
+const timer = ref(endDate - today);
 let interval = setInterval(() => {
   if (timer.value === 0) {
     clearInterval(interval)
