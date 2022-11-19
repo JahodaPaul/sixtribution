@@ -14,4 +14,4 @@ api = Api(
 api.add_resource(UserList, '/users')
 api.add_resource(User, '/users/<int:id>/')
 api.add_resource(Example, '/example/<int:x>')
-api.add_resource(Stations, '/Stations')
+api.add_resource(Stations, '/stations')
