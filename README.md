@@ -1,1 +1,1 @@
-# sixtribution
+# SIXTribution
