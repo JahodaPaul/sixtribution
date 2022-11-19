@@ -4,7 +4,7 @@ from flask import Flask
 from app import main
 from app.main.api import api
 from app.main.database import db, migration
-from app.main.logging import LOGGING_CONFIG
+from app.main.log_config import LOGGING_CONFIG
 
 # Flask App Initialization
 app = Flask(__name__)
