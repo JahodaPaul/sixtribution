@@ -1,5 +1,5 @@
-from src.Car import Car
-from src.StationDatabase import Station
+from app.main.Car import Car
+from app.main.StationDatabase import Station
 
 
 class Core:
@@ -9,8 +9,14 @@ class Core:
         self.fleet = {}
         self.stations = {}
 
-    def initialize_fleet(self, init_car_state):
-        for car_id, car_dict in init_car_state.items():
+    def get_fleet(self):
+        return self.fleet
+
+    def get_stations(self):
+        return self.stations
+
+    def initialize_fleet(self, initial_state_dict):
+        for car_id, car_dict in initial_state_dict.items():
             self.fleet[car_id] = Car(car_id=car_id,
                                      longitude=car_dict["latitude"],
                                      latitude=car_dict["longitude"],
