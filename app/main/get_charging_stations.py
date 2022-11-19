@@ -29,11 +29,12 @@ nodes = []
 
 
 class Node():
-    def __init__(self, lon, lat, capacity, station_id):
+    def __init__(self, lon, lat, capacity, station_id, operator):
         self.lon = lon
         self.lat = lat
         self.capacity = capacity
         self.station_id = station_id
+        self.operator = operator
 
 
 for element in data['elements']:
@@ -46,6 +47,11 @@ for element in data['elements']:
             capacity = element['tags']['capacity']
         else:
             capacity = 1
+        operator = ''
+        if 'operator' in element['tags'].keys():
+            operator = element['tags']['operator']
+        else:
+            operator = ''
         coords.append((lon, lat))
     elif 'center' in element:
         lon = element['center']['lon']
@@ -53,7 +59,7 @@ for element in data['elements']:
         station_id = element['center']['id']
         capacity = element['center']['capacity']
         coords.append((lon, lat))  # Convert coordinates into numpy array
-    n = Node(lon, lat, int(capacity), int(station_id))
+    n = Node(lon, lat, int(capacity), int(station_id),operator)
     capacities.append(int(capacity))
     nodes.append(n)
 
@@ -71,5 +77,5 @@ plt.show()
 with open('stations.txt', 'w') as f:
     for item in nodes:
         result = str(item.station_id) + ',' + str(item.lat) + ',' + ',' + str(
-            item.lon) + ',' + str(item.capacity) + '\n'
+            item.lon) + ',' + str(item.capacity) + ',' + str(item.operator) + '\n'
         f.write(result)
