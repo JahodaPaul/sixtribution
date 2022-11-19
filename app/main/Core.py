@@ -35,9 +35,12 @@ class Core:
 
         self.current_simulation_step -= 1
 
-    def initialize_stations(self, n_stations):
-        for i in range(0, n_stations):
-            self.stations[i] = Station(lat=20.2, lon=20.2, capacity=2, station_id=i)
+    def initialize_stations(self, init_station_state):
+        for station_id, station_dict in init_station_state.items():
+            self.stations[station_id] = Station(longitude=station_dict["longitude"],
+                                                latitude=station_dict["latitude"],
+                                                total_capacity=station_dict["capacity"],
+                                                station_id=station_id)
 
     def get_current_simulation_step(self):
         return self.current_simulation_step
