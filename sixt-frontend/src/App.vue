@@ -7,7 +7,10 @@ import Header from './components/Header.vue'
   <div class="flex flex-col h-screen">
     <Header></Header>
 
-    <RouterView class="h-full" />
+    <div class="h-full">
+    <RouterView />
+    </div>
+
   </div>
 
 </template>
