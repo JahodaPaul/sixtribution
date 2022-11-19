@@ -1,11 +1,16 @@
 from Core import Core
 
+
 def main():
     core = Core(500)
-    core.GenerateFleet()
+
+    # TODO initialize cars and stations
+    core.initialize_fleet()
+    core.initialize_stations()
     # each time stamp corresponds to 1 hour
     while True:
-        core.MoveFleet()
+        core.update_fleet()
+
 
 
 
