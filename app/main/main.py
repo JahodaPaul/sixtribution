@@ -115,7 +115,7 @@ def get_core_update():
 
 
 def main():
-    core = Core(100)
+    core = Core(1000)
 
     initial_state = get_initial_state()
     # stations have to be initialized first, because cars will update their capacity
@@ -123,8 +123,6 @@ def main():
     core.initialize_fleet(initial_state["cars"])
 
     controller_stations = Stations()
-
-    # controller_stations.update(core.get_stations())
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
@@ -137,14 +135,12 @@ def main():
         # frontend stuff
         stations = core.get_stations()
         fleet = core.get_fleet()
-        # controller_stations.update(stations)
 
         with open('data/stations_current.pickle', 'wb') as outfile:
             pickle.dump(stations, outfile)
 
-        # import json
-        # for key in stations.keys():
-        #     print(json.dumps(stations[key].__dict__))
+        with open('data/fleet_current.pickle', 'wb') as outfile:
+            pickle.dump(fleet, outfile)
 
         time.sleep(1)
 
