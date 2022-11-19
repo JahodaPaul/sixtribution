@@ -48,28 +48,27 @@ const getChargingInfo = (marker) => {
   return info
 }
 
-const chargingStations = ref([
+const chargingStations = ref(null);
+let test = ref(
+    [
   {
     name: "Demo charging station 1",
-    position: {
-      lat: 48.20,
-      lng: 11.53
-    },
+    latitude: 48.20,
+    longitude: 11.53
   },
   {
     name: "Demo charging station 2",
-    position: {
-      lat: 48.1,
-      lng: 11.6
-    },
+    latitude: 48.1,
+    longitude: 11.6,
   }
 ]);
 
 onMounted(async () => {
   console.log("mounted")
-  //const res = await fetch('http://131.159.205.244:5000/api/stations').then((res) => res.json())
-  //chargingStations.value = res
-  //console.log(chargingStations)
+  const res = await fetch('http://131.159.199.176:5000/api/stations').then((res) => res.json())
+  chargingStations.value = Object.values(res).map(v => JSON.parse(v))
+  let v = chargingStations.value[0]
+  console.log(v)
 });
 </script>
 
@@ -88,8 +87,8 @@ onMounted(async () => {
     </template>
 
     <template v-for="chst in chargingStations">
-      <Marker :options='{ position: chst.position, icon: chargingIcon }'>
-        <InfoWindow :options="{ position: chst.position, content: getChargingInfo(chst)}" />
+      <Marker :options='{ position: {lat: Number(chst.latitude), lng: Number(chst.longitude)}, icon: chargingIcon }'>
+        <InfoWindow :options="{ position: {lat: Number(chst.latitude), lng: Number(chst.longitude)}, content: getChargingInfo(chst)}" />
       </Marker>
     </template>
   </GoogleMap>

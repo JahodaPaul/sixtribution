@@ -1,6 +1,24 @@
+<script src="../../env.d.ts"></script>
 <script setup>
 import { GoogleMap, Marker, InfoWindow } from 'vue3-google-map';
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch } from "vue";
+
+const map = ref(null)
+
+var directionsService;
+var directionsDisplay;
+
+watch(() => map.value?.ready, (ready) => {
+  if (!ready) return
+
+  // do something with the api using `mapRef.value.api`
+  // or with the map instance using `mapRef.value.map`
+  console.log(ready)
+  console.log(map.value.api)
+  directionsService = new map.value.api.DirectionsService();
+  directionsDisplay = new map.value.api.DirectionsRenderer();
+  Route()
+})
 
 const cars = [{
   s_id: "S_168",
@@ -31,6 +49,25 @@ const getCarInfo = (marker) => {
                 ${marker.addr}<br>
                 <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer">Pick up and drive!</div>`
   return info
+}
+
+
+function Route() {
+  console.log("called route")
+  var start = new google.maps.LatLng(48.141922, 11.558181);
+  var end = new google.maps.LatLng(48.140033, 11.566841);
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: google.maps.TravelMode.TRANSIT
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    } else {
+      alert("couldn't get directions:" + status);
+    }
+  });
 }
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FetchData from "../components/FetchData.vue";
 import {computed, ref} from "vue";
 
 const endDate = Date.UTC(2022, 11, 20, 10, 0)
@@ -19,27 +18,28 @@ let interval = setInterval(() => {
     hours.value = Math.floor((timer.value - days.value*(1000*60*60*24)) / 1000 / 60 / 60)
     minutes.value = Math.floor((timer.value - days.value*(1000*60*60*24) - hours.value*(1000*60*60)) / 1000 / 60 )
     seconds.value = Math.floor((timer.value - days.value*(1000*60*60*24) - hours.value*(1000*60*60) - minutes.value*(1000*60)) / 1000)
-    console.log(days, hours, Date.now())
-    console.log("seconds: " + Math.floor(timer.value / 1000))
-    console.log("minutes: " + (timer.value / 1000 / 60).toFixed(0))
-    console.log("hours: " + (timer.value / 1000 / 60 / 60).toFixed(0))
-    console.log("days: " + new Date().getDay())
-  }
+    }
 }, 1000)
 </script>
 
 <template>
-  <div class="px-8 py-2">
-    <div class="text-3xl">
+  <div class="px-8">
+    <div class="text-3xl py-2">
       My car
     </div>
+    <div class="h-[200px] bg-red-500">
+      Picture of a car
+    </div>
+    <div>Rented since: 18. 11. 2022 15:00</div>
     <div>
-
+      Battery state: {{ "70%" }}
     </div>
     <div>
-      Rental ends in {{ days }} days {{ hours }} hours {{ minutes }} minutes {{ seconds }} seconds
+      Kilometers driven: {{ 126 }}
     </div>
-    fetch data: <FetchData />
-  <div class="bg-black text-white p-2 rounded-lg fixed hover:cursor-pointer fixed z-90 bottom-10 right-8 ">Button</div>
+    <div>
+      Rental ends in: {{ days > 0? days + "days" : "" }} {{ hours }} hours {{ minutes }} minutes {{ days > 0? seconds + "seconds" : ""}}
+    </div>
+  <div class="bg-black text-white p-3 hover:scale-105 rounded-lg fixed hover:cursor-pointer fixed z-90 bottom-10 right-8 text-lg">Return the car</div>
   </div>
 </template>
