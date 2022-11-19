@@ -32,7 +32,6 @@ class Car:
         elif self.state == self.RETURNING:
             # we move the car towards the charging station
             latitude, longitude = self.get_position()
-            print("oi", self.car_id, type(self.id_charging_station), core_instance.stations.keys())
             station_lat, station_long = core_instance.stations[self.id_charging_station].get_position()
             new_lat = ((station_lat - latitude) * random.random() * 2) + latitude
             new_long = ((station_long - longitude) * random.random() * 2) + longitude

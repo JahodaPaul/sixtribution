@@ -73,15 +73,15 @@ def main():
         stations = core.get_stations()
         fleet = core.get_fleet()
 
-        with open('data/stations_current.pickle', 'wb') as outfile:
-            pickle.dump(stations, outfile)
+        # with open('data/stations_current.pickle', 'wb') as outfile:
+        #     pickle.dump(stations, outfile)
+        #
+        # with open('data/fleet_current.pickle', 'wb') as outfile:
+        #     pickle.dump(fleet, outfile)
 
-        with open('data/fleet_current.pickle', 'wb') as outfile:
-            pickle.dump(fleet, outfile)
-
-        time.sleep(1)
-
-        controller_stations.update(stations)
+        # time.sleep(1)
+        #
+        # controller_stations.update(stations)
         time_stamp += 1
 
 

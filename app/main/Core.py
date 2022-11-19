@@ -49,7 +49,8 @@ class Core:
             capacity = int(items[4])
             operator = items[5]
 
-            station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id,operator=operator)
+            station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id,
+                              station_provider=operator)
             self.stations[station_id] = station
 
     def find_optimal_station(self, car_id):
