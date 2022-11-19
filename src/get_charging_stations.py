@@ -33,6 +33,7 @@ class Node():
     self.station_id = station_id 
 
 for element in data['elements']:
+  print(element)
   if element['type'] == 'node':
     lon = element['lon']
     lat = element['lat']
