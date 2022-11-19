@@ -1,52 +1,14 @@
+import json
+
 from Core import Core
 from app.controllers.Stations import Stations
 
 
 def get_initial_state():
-    return {
-        "cars": {
-            0: {
-                "latitude": 20.2,
-                "longitude": 22.2,
-                "battery_level": 50,
-                "station_id": None,
-                "state": "booked"
-            },
-            1: {
-                "latitude": 20.2,
-                "longitude": 55.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "free"
-            },
-            2: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "returning"
-            },
-            3: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "charging"
-            }
-        },
-        "stations": {
-            0: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "capacity": 3
-            },
-            1: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "capacity": 1
-            }
-        }
-    }
+    with open("./../../data/test_scenarios/scenario_1/init.json", "r") as f:
+        init_state = json.load(f)
+    print(init_state)
+    return init_state
 
 
 def get_core_update():
@@ -77,43 +39,15 @@ def get_core_update():
         }
     }
     """
-
-    core_update = {
-        "cars": {
-            0: {
-                "latitude": 20.2,
-                "longitude": 22.2,
-                "battery_level": 50,
-                "station_id": None,
-                "state": "booked"
-            },
-            1: {
-                "latitude": 20.2,
-                "longitude": 55.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "free"
-            },
-            2: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "returning"
-            },
-            3: {
-                "latitude": 20.2,
-                "longitude": 43.2,
-                "battery_level": 50,
-                "station_id": 0,
-                "state": "charging"
-            }
-        },
-    }
+    # TODO make path relative
+    with open("./../../data/test_scenarios/scenario_1/scenario_1.json", "r") as f:
+        core_update = json.load(f)
+    print(core_update)
     return core_update
 
 
 def main():
+    # TODO should keys be string or ints? determine later
     core = Core(10)
 
     initial_state = get_initial_state()
@@ -123,18 +57,23 @@ def main():
 
     controller_stations = Stations()
 
+    # get simulated data
+    trip_history = get_core_update()
+
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
+    time_stamp = 0
     while core.get_current_simulation_step() > 0:
-        print(f"Simulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
+        print(f"\nSimulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
 
-        update_core = get_core_update()
+        update_core = trip_history[str(time_stamp)] if len(trip_history) > time_stamp else trip_history["3"]  # get_core_update()
         core.update_fleet(update_core)
 
         # frontend stuff
         stations = core.get_stations()
         fleet = core.get_fleet()
         controller_stations.update(stations)
+        time_stamp += 1
 
 
 if __name__ == "__main__":
