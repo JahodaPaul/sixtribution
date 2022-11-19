@@ -1,3 +1,5 @@
+import os
+
 from app.main.Car import Car
 from app.main.StationDatabase import Station
 
@@ -36,11 +38,18 @@ class Core:
         self.current_simulation_step -= 1
 
     def initialize_stations(self, init_station_state):
-        for station_id, station_dict in init_station_state.items():
-            self.stations[station_id] = Station(longitude=station_dict["longitude"],
-                                                latitude=station_dict["latitude"],
-                                                total_capacity=station_dict["capacity"],
-                                                station_id=station_id)
+        path_t = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/stations.txt")
+        with open(path_t, "r") as file:
+            lines = [line.rstrip() for line in file]
+        for line in lines:
+            items = line.strip().split(",")
+            station_id = int(items[0])
+            lat = items[1]
+            lon = items[3]
+            capacity = int(items[4])
+
+            station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id)
+            self.stations[station_id] = station
 
     def get_current_simulation_step(self):
         return self.current_simulation_step

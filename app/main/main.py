@@ -130,6 +130,8 @@ def main():
 
         update_core = get_core_update()
         core.update_fleet(update_core)
+
+        # frontend stuff
         stations = core.get_stations()
         fleet = core.get_fleet()
         controller_stations.update(stations)
