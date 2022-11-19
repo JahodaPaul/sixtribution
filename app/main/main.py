@@ -5,7 +5,7 @@ from app.controllers.Stations import Stations
 
 
 def get_initial_state():
-    with open("./../../data/test_scenarios/scenario_1/init.json", "r") as f:
+    with open("../../data/test_scenarios/scenario_1/init_cars.json", "r") as f:
         init_state = json.load(f)
     print(init_state)
     return init_state
@@ -52,13 +52,10 @@ def main():
 
     initial_state = get_initial_state()
     # stations have to be initialized first, because cars will update their capacity
-    core.initialize_stations(initial_state["stations"])
+    core.initialize_stations()
     core.initialize_fleet(initial_state["cars"])
 
     controller_stations = Stations()
-
-    # get simulated data
-    trip_history = get_core_update()
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
@@ -66,8 +63,9 @@ def main():
     while core.get_current_simulation_step() > 0:
         print(f"\nSimulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
 
-        update_core = trip_history[str(time_stamp)] if len(trip_history) > time_stamp else trip_history["3"]  # get_core_update()
-        core.update_fleet(update_core)
+        # update_core = trip_history[str(time_stamp)]
+        # if len(trip_history) > time_stamp else trip_history["3"]  # get_core_update()
+        core.update_fleet()
 
         # frontend stuff
         stations = core.get_stations()

@@ -23,7 +23,7 @@ class Station:
             raise Exception(f"Station {self.station_id} is full! Can't add car {car_id}!")
             # TODO uncomment for deployment -> return False
 
-    def remove_from_station(self, car_id):
+    def detach_from_station(self, car_id):
         if car_id in self.occupied_capacity:
             self.occupied_capacity.remove(car_id)
         else:
@@ -31,14 +31,14 @@ class Station:
 
     def charge_cars(self, core_instance):
         for car_id in self.occupied_capacity:
-            battery_lvl = core_instance.fleet[car_id].get_battery_level() + self.charging_constant
-
-            # only charge the car if it is not full
-            if 0 < battery_lvl <= 100:
-                print(f"Charging car {car_id} at station {self.station_id}! "
-                      f"Previous battery level: {core_instance.fleet[car_id].get_battery_level()}% "
-                      f"Current battery level: {battery_lvl}%")
-                core_instance.fleet[car_id].set_battery_level(battery_lvl)
+            if core_instance.fleet[car_id].get_state() == core_instance.fleet[car_id].CHARGING:
+                battery_lvl = core_instance.fleet[car_id].get_battery_level() + self.charging_constant
+                core_instance.fleet[car_id].set_battery_level(min(battery_lvl, 100))
+                # only charge the car if it is not full
+                # if 0 < battery_lvl <= 100:
+                #     print(f"Charging car {car_id} at station {self.station_id}! "
+                #           f"Previous battery level: {core_instance.fleet[car_id].get_battery_level()}% "
+                #           f"Current battery level: {battery_lvl}%")
 
     def has_space(self):
         return self.total_capacity > len(self.occupied_capacity)

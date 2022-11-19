@@ -22,10 +22,10 @@ class Core:
                                      charging_station_id=car_dict["station_id"],
                                      state=car_dict["state"])
 
-    def update_fleet(self, update_dict):
+    def update_fleet(self):
         # first update all the vehicles
-        for car_id, car_dict in update_dict["cars"].items():
-            self.fleet[car_id].update(car_dict, self)
+        for car_id in self.fleet:
+            self.fleet[car_id].update(self)
 
         # then update all the stations
         for station in self.stations:
@@ -33,7 +33,11 @@ class Core:
 
         self.current_simulation_step -= 1
 
-    def initialize_stations(self, init_station_state):
+    def initialize_stations(self):
+        """
+        :param init_station_state:
+        :return:
+        """
         path_t = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/stations.txt")
         with open(path_t, "r") as file:
             lines = [line.rstrip() for line in file]
