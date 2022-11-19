@@ -3,7 +3,7 @@ import FetchData from "../components/FetchData.vue";
 import {computed, ref} from "vue";
 
 const endDate = Date.UTC(2022, 11, 20, 10, 0)
-const today = Date.UTC(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate(), new Date().getHours()+1, new Date().getMinutes()+1)
+const today = Date.UTC(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate(), new Date().getHours(), new Date().getMinutes())
 
 const timer = ref(endDate - today);
 const days = ref(0)
