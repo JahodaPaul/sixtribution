@@ -6,4 +6,5 @@ class Stations(Resource):
         pass
 
     def update(self, stations):
+        print(stations)
         pass

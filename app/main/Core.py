@@ -1,5 +1,5 @@
-from src.Car import Car
-from src.StationDatabase import Station
+from app.main.Car import Car
+from app.main.StationDatabase import Station
 
 
 class Core:
