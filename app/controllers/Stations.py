@@ -2,9 +2,11 @@ from flask_restful import Resource
 
 
 class Stations(Resource):
-    def get(self, id):
-        pass
+    def __int__(self):
+        self.stations = {}
+        
+    def get(self):
+        return self.stations
 
     def update(self, stations):
-        # print(stations)
-        pass
+        self.stations = stations
