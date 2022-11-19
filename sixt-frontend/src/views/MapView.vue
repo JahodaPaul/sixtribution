@@ -10,21 +10,25 @@ onMounted(() => {
 })
 
 const sixts = [{
-  name: "S_168",
+  s_id: "S_168",
+  name: "Munich Central Train Station",
   position: {
     lat: 48.141922,
     lng: 11.558181
   },
   id: 0,
-  ref: null
+  ref: null,
+  addr: "Arnulfstr. 16/18, 80335 München"
 },{
-  name: "S_5254",
+  s_id: "S_5254",
+  name: "Munich Stachus (City)",
   position: {
     lat: 48.140033,
     lng: 11.566841
   },
   id: 1,
-  ref: null
+  ref: null,
+  addr: "Karlsplatz 3, 80335 München"
 }];
 
 const markerIcon = "src/assets/S.png"
@@ -41,7 +45,7 @@ const sixtStation = "<p><b>SIXT station</b></p>"
   >
     <template v-for="marker in sixts">
       <Marker :options='{ position: marker.position, icon: markerIcon, anchorPoint: null }'>
-      <InfoWindow :options="{ position: marker.position, content: sixtStation + marker.name }" :ref="marker.ref" />
+      <InfoWindow :options="{ position: marker.position, content: sixtStation + marker.name + marker.addr }" :ref="marker.ref" />
       </Marker>
     </template>
   </GoogleMap>
