@@ -3,8 +3,8 @@
 </script>
 
 <template>
-  <div class="top sticky flex flex-row p-8">
-    <img alt="SIXT logo" class="logo" src="@/assets/SixtLogo.svg" width="100" />
-    <div class="bg-red-500 text-3xl font-bold underline">This is header.</div>
+  <div class="top sticky w-full flex flex-row px-8 bg-sixt-orange">
+    <img alt="SIXT logo" class="logo h-[80px] w-[80px]" src="@/assets/sixt-vector-logo-cropped.svg" />
+    <div class="text-3xl font-bold self-center pt-1">ribution</div>
   </div>
 </template>

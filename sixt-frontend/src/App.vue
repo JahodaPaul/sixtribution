@@ -5,20 +5,12 @@ import Header from './components/Header.vue'
 </script>
 
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-col">
     <Header></Header>
-    <header>
-      <img alt="Vue logo" class="logo" src="@/assets/SixtLogo.svg" width="125" height="125" />
-
-      <div class="wrapper">
-        <HelloWorld msg="You did it!" />
-
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-        </nav>
-      </div>
-    </header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
 
     <RouterView />
   </div>
