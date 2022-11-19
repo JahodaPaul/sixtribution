@@ -10,9 +10,10 @@ let interval = setInterval(() => {
     clearInterval(interval)
   } else {
     timer.value -= 1000
-    const days = (timer.value / 1000 / 60 / 60 / 24).toFixed(0)
-    const hours = ((timer.value - (1000*60*60*24)) / 1000 / 60 / 60 / 24).toFixed(0)
-    console.log("seconds: " + (timer.value / 1000).toFixed(0))
+    const days = Math.floor(timer.value / 1000 / 60 / 60 / 24)
+    const hours = ((timer.value - days*(1000*60*60*24)) / 1000 / 60 / 60).toFixed(0)
+    console.log(days, hours, Date.now())
+    console.log("seconds: " + Math.floor(timer.value / 1000))
     console.log("minutes: " + (timer.value / 1000 / 60).toFixed(0))
     console.log("hours: " + (timer.value / 1000 / 60 / 60).toFixed(0))
     console.log("days: " + (timer.value / 1000 / 60 / 60 / 24).toFixed(0))
@@ -32,6 +33,6 @@ let interval = setInterval(() => {
       Rental ends in {{ timer }}
     </div>
     fetch data: <FetchData />
-
+  <div class="bg-black text-white p-2 rounded-lg fixed hover:cursor-pointer fixed z-90 bottom-10 right-8 ">Button</div>
   </div>
 </template>
