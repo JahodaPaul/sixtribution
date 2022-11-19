@@ -9,6 +9,12 @@ class Core:
         self.fleet = {}
         self.stations = {}
 
+    def get_fleet(self):
+        return self.fleet
+
+    def get_stations(self):
+        return self.stations
+
     def initialize_fleet(self, initial_state_dict):
         for car_id, car_dict in initial_state_dict.items():
             self.fleet[car_id] = Car(car_id=car_id,

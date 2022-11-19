@@ -1,4 +1,5 @@
 from Core import Core
+from app.controllers.Stations import Stations
 
 
 def get_initial_state():
@@ -108,6 +109,8 @@ def main():
     core.initialize_fleet(initial_state["cars"])
     core.initialize_stations(5)
 
+    controller_stations = Stations()
+
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
     while core.get_current_simulation_step() > 0:
@@ -115,6 +118,9 @@ def main():
 
         update_core = get_core_update()
         core.update_fleet(update_core)
+        stations = core.get_stations()
+        fleet = core.get_fleet()
+        controller_stations.update(stations)
 
 
 if __name__ == "__main__":
