@@ -21,8 +21,8 @@ class Core:
                                 f"Please assign a valid station ID to the car {car_id}!")
 
             self.fleet[car_id] = Car(car_id=car_id,
-                                     longitude=np.random.normal(0.0, 0.012, 1)[0] + 48.145,
-                                     latitude=np.random.normal(0.0, 0.018, 1)[0] + 11.450,
+                                     longitude=car_dict["longitude"],
+                                     latitude=car_dict["latitude"],
                                      battery_lvl=car_dict["battery_level"],
                                      charging_station_id=car_dict["station_id"],
                                      state=car_dict["state"])
@@ -34,13 +34,12 @@ class Core:
 
         self.current_simulation_step -= 1
 
-    def initialize_stations(self):
+    def initialize_stations(self, stations_file_name):
         """
         :param init_station_state:
         :return:
         """
-        path_t = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/stations.txt")
-        with open(path_t, "r") as file:
+        with open(stations_file_name, "r") as file:
             lines = [line.rstrip() for line in file]
         for line in lines:
             items = line.strip().split(",")

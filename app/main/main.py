@@ -9,54 +9,19 @@ from Core import Core
 from app.controllers.Stations import Stations
 
 
-def get_initial_state():
-    # TODO add coordinate override
-    with open("../../data/test_scenarios/scenario_1/init_cars.json", "r") as f:
+def get_initial_state(file_name):
+    with open(file_name, "r") as f:
         init_state = json.load(f)
-    print(init_state)
+
     return init_state
 
 
-def get_core_update():
-    """
-    This function is meant as a substitute for the actual online update function, it should return data in the form of:
-
-    "state":
-     - booked -> car is in use and we don't know where it will be dropped off
-     - returning -> car is going to a charging station TODO here we recommend the optimal location
-     - free -> car is parked at the charging station and is available for booking or charging
-     - charging -> car is charging at the charging station and is actually charging
-    :return:
-    {
-    "cars" {
-        "car_id": {
-            "latitude": <float latitude>,
-            "longitude": <float longitude >,
-            "battery_level": <int 0-100>,
-            "station_id": <int id>,
-            "state": "booked" / "returning" / "free" (meaning it is parked) / "charging"
-            },
-        0: {
-            "latitude": 20.2,
-            "longitude": 20.2,
-            "battery_level": 50,
-            "station_id": 0,
-            "state": "booked"
-        }
-    }
-    """
-    # TODO make path relative
-    with open("./../../data/test_scenarios/scenario_1/scenario_1.json", "r") as f:
-        core_update = json.load(f)
-    print(core_update)
-    return core_update
-
-
 def main():
-    core = Core(100)
-    initial_state = get_initial_state()
+    root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
+    core = Core(200)
+    initial_state = get_initial_state(root_path + "./data/scenario_initializations/init_cars_scenario_1.json")
     # stations have to be initialized first, because cars will update their capacity
-    core.initialize_stations()
+    core.initialize_stations(root_path + "./data/stations.txt")
     core.initialize_fleet(initial_state["cars"])
 
     controller_stations = Stations()
@@ -74,7 +39,6 @@ def main():
         stations = core.get_stations()
         fleet = core.get_fleet()
 
-        root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
         with open(root_path + "data/stations_current.pickle", "wb") as outfile:
             pickle.dump(stations, outfile)
 

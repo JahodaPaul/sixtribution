@@ -1,0 +1,32 @@
+{
+  "cars": {
+    "0": {
+      "latitude": 48.14860328768912,
+      "longitude": 11.571221733599833,
+      "battery_level": 79,
+      "station_id": null,
+      "state": "booked"
+    },
+    "1": {
+      "latitude": 48.13803731161824,
+      "longitude": 11.585127638484199,
+      "battery_level": 57,
+      "station_id": 6553380742,
+      "state": "free"
+    },
+    "2": {
+      "latitude": 48.125499659481314,
+      "longitude": 11.578684005351382,
+      "battery_level": 56,
+      "station_id": 6553395146,
+      "state": "free"
+    },
+    "3": {
+      "latitude": 48.12197501803402,
+      "longitude": 11.556665651717026,
+      "battery_level": 51,
+      "station_id": 5539187643,
+      "state": "charging"
+    }
+  }
+}

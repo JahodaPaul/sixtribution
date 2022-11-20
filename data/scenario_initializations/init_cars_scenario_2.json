@@ -1,0 +1,144 @@
+{
+  "cars": {
+    "0": {
+      "latitude": 48.14860328768912,
+      "longitude": 11.571221733599833,
+      "battery_level": 79,
+      "station_id": null,
+      "state": "booked"
+    },
+    "1": {
+      "latitude": 48.13803731161824,
+      "longitude": 11.585127638484199,
+      "battery_level": 57,
+      "station_id": null,
+      "state": "booked"
+    },
+    "2": {
+      "latitude": 48.125499659481314,
+      "longitude": 11.578684005351382,
+      "battery_level": 56,
+      "station_id": null,
+      "state": "booked"
+    },
+    "3": {
+      "latitude": 48.12197501803402,
+      "longitude": 11.556665651717026,
+      "battery_level": 51,
+      "station_id": null,
+      "state": "booked"
+    },
+    "4": {
+      "latitude": 48.13047337410518,
+      "longitude": 11.560892390447188,
+      "battery_level": 64,
+      "station_id": null,
+      "state": "booked"
+    },
+    "5": {
+      "latitude": 48.1410146386853,
+      "longitude": 11.58428829242282,
+      "battery_level": 51,
+      "station_id": null,
+      "state": "booked"
+    },
+    "6": {
+      "latitude": 48.16043554731334,
+      "longitude": 11.560035573463383,
+      "battery_level": 58,
+      "station_id": null,
+      "state": "booked"
+    },
+    "7": {
+      "latitude": 48.15422262348263,
+      "longitude": 11.595904069505103,
+      "battery_level": 74,
+      "station_id": null,
+      "state": "booked"
+    },
+    "8": {
+      "latitude": 48.1388188664515,
+      "longitude": 11.621676948323334,
+      "battery_level": 64,
+      "station_id": null,
+      "state": "booked"
+    },
+    "9": {
+      "latitude": 48.13221939008658,
+      "longitude": 11.60343093344372,
+      "battery_level": 71,
+      "station_id": null,
+      "state": "booked"
+    },
+    "10": {
+      "latitude": 48.12149179336411,
+      "longitude": 11.551297960779262,
+      "battery_level": 77,
+      "station_id": null,
+      "state": "booked"
+    },
+    "11": {
+      "latitude": 48.11769162095929,
+      "longitude": 11.601964486606398,
+      "battery_level": 61,
+      "station_id": null,
+      "state": "booked"
+    },
+    "12": {
+      "latitude": 48.14499490701532,
+      "longitude": 11.582986073663402,
+      "battery_level": 69,
+      "station_id": null,
+      "state": "booked"
+    },
+    "13": {
+      "latitude": 48.12971096891978,
+      "longitude": 11.578567274379298,
+      "battery_level": 67,
+      "station_id": null,
+      "state": "booked"
+    },
+    "14": {
+      "latitude": 48.11656684022229,
+      "longitude": 11.605797180175456,
+      "battery_level": 53,
+      "station_id": null,
+      "state": "booked"
+    },
+    "15": {
+      "latitude": 48.14218606813247,
+      "longitude": 11.552723742148393,
+      "battery_level": 51,
+      "station_id": null,
+      "state": "booked"
+    },
+    "16": {
+      "latitude": 48.12208161006605,
+      "longitude": 11.602925993082817,
+      "battery_level": 68,
+      "station_id": null,
+      "state": "booked"
+    },
+    "17": {
+      "latitude": 48.11598059731645,
+      "longitude": 11.588521430022668,
+      "battery_level": 68,
+      "station_id": null,
+      "state": "booked"
+    },
+    "18": {
+      "latitude": 48.13788156934746,
+      "longitude": 11.584091297228612,
+      "battery_level": 80,
+      "station_id": null,
+      "state": "booked"
+    },
+    "19": {
+      "latitude": 48.13842780175629,
+      "longitude": 11.619353409326253,
+      "battery_level": 50,
+      "station_id": null,
+      "state": "booked"
+    }
+  }
+}
