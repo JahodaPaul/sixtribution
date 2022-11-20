@@ -6,6 +6,20 @@ import {useRoute} from 'vue-router'
 
 const route = useRoute()
 
+const carPictures = {
+  10: "a2786d1a61ec2647f210be504202ec10f9fc7999",
+  11: "218b5062a11a932e460072755436e2aa245036bc",
+  12: "701bf24400d635c7680d106999fd14613a6f9a37",
+  13: "00954f74f02be600cf51207ef9a0a25d21c9e2dd",
+  14: "e868c9aeb6cbd00c069a20fbc8b699f1fc69a810",
+  15: "fba3fbccaa985a65d03c9abaceff208ec9cf5ef7",
+  16: "7957217efadd908f866cd430c10b67871c246ce1",
+  17: "98e3eab0428d75194e29edba9ff20fbafabe109c",
+  18: "69165e4992d177c637d4460ded95b8b528abbeca",
+  19: "3422844fdcd47fd0e781a8619c4d9ebb383ec2fb",
+  20: "1aaabc6600a207cdde29b7f5c05af61c2d3df241",
+}
+
 const fleet = ref(null)
 onMounted(async () => {
   const res = await fetch('http://131.159.199.176:5000/api/fleet').then((res) => res.json())
@@ -65,7 +79,7 @@ const myLocationIcon = "src/assets/my_icon.png"
 
 const getCarInfo = (marker) => {
   const info = `<p><b>Car to pick up</b></p>
-                <img class="h-[100px]" src="src/assets/cars/a2786d1a61ec2647f210be504202ec10f9fc7999.png"/><br>
+                <img class="h-[100px]" src="src/assets/cars/${carPictures[marker.car_id]}.png"/><br>
                 <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
                     onclick="window.location.href = '/driver#lat=${marker.latitude}&lng=${marker.longitude}'">Pick up and drive!</div>`
   return info
