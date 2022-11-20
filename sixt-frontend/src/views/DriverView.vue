@@ -2,11 +2,21 @@
 import { GoogleMap, Marker, InfoWindow } from 'vue3-google-map';
 import {computed, onMounted, ref, watch } from "vue";
 import DummyComponent from "../components/DummyComponent.vue"
+import {useRoute} from 'vue-router'
+
+const route = useRoute()
 
 const map = ref(null)
 
 var directionsService;
 var directionsDisplay;
+
+watch(() => route.hash, (hash) => {
+  let lat, lng;
+  lat = hash.substring(hash.indexOf("lat=")+4, hash.indexOf("lng=")-1)
+  lng = hash.substring(hash.indexOf("lng=")+4)
+  Route({lat: Number(lat), lng: Number(lng)})
+})
 
 watch(() => map.value?.ready, (ready) => {
   if (!ready) return
@@ -49,7 +59,7 @@ const getCarInfo = (marker) => {
                 ${marker.name}<br>
                 ${marker.addr}<br>
                 <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
-                    onclick="window.location.href = '/driver?lat=${marker.position.lat}&lng=${marker.position.lng}'">Pick up and drive!</div>`
+                    onclick="window.location.href = '/driver#lat=${marker.position.lat}&lng=${marker.position.lng}'">Pick up and drive!</div>`
   return info
 }
 
@@ -74,14 +84,6 @@ const Route = (end) => {
   });
 }
 
-const getContent = async () => {
-  let i = await import('../components/DummyComponent.vue')
-  console.log(i)
-  return DummyComponent
-  return i
-  return "content"
-}
-
 const setMarkers = () => {
   console.log("setting markers")
   const gMap = map.value.mapRef;
@@ -97,8 +99,6 @@ const setMarkers = () => {
 
 <template>
   <div class="bg-red-500 h-full">
-{{x}}
-
     <div class="h-full">
       <GoogleMap ref="map"
                  api-key="AIzaSyCDzbtVQ0VGI-EaoCJat7kdT_vLAeSCcD4"
