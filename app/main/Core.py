@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from geopy import distance
 
 from app.main.Car import Car
@@ -16,20 +17,21 @@ class Core:
     def initialize_fleet(self, initial_state_dict):
         for car_id, car_dict in initial_state_dict.items():
             self.fleet[car_id] = Car(car_id=car_id,
-                                     longitude=car_dict["latitude"],
-                                     latitude=car_dict["longitude"],
+                                     longitude=np.random.normal(0.0, 0.025, 1) + 48.145,
+                                     latitude=np.random.normal(0.0, 0.055, 1) + 11.450,
                                      battery_lvl=car_dict["battery_level"],
                                      charging_station_id=car_dict["station_id"],
                                      state=car_dict["state"])
 
     def update_fleet(self):
-        # first update all the vehicles
+        # moved to Car
+        # # first increase battery charge on all cars at stations
+        # for station in self.stations:
+        #     self.stations[station].charge_cars(self)
+
+        # then update all the vehicles and their states
         for car_id in self.fleet:
             self.fleet[car_id].update(self)
-
-        # then update all the stations
-        for station in self.stations:
-            self.stations[station].charge_cars(self)
 
         self.current_simulation_step -= 1
 
@@ -89,3 +91,17 @@ class Core:
     def get_stations(self):
         return self.stations
 
+    def pretty_print_car_states(self):
+        for car_id in self.fleet:
+            if self.fleet[car_id].get_state() == "returning":
+                distance_to_dst = self.euclidean_distance(car_position=self.fleet[car_id].get_position(),
+                                                          station_position=self.stations[self.fleet[car_id].get_charging_station()].get_position())
+
+                print(f"Car ID: '{car_id:.<3}', State: '{self.fleet[car_id].get_state():<10}', "
+                      f"Battery Level: '{self.fleet[car_id].get_battery_level():.<5}', "
+                      f"Charging Station: '{self.fleet[car_id].get_charging_station():.<10}'"
+                      f"Distance to Charging Station: '{distance_to_dst:.<5}'")
+            else:
+                print(f"Car ID: '{car_id:.<3}', State: '{self.fleet[car_id].get_state():<10}', "
+                      f"Battery Level: '{self.fleet[car_id].get_battery_level():.<5}', "
+                      f"Charging Station: '{self.fleet[car_id].get_charging_station():.<10}'")

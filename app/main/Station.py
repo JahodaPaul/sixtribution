@@ -9,7 +9,7 @@ class Station:
         self.total_capacity = total_capacity
         self.station_id = station_id
         self.occupied_capacity = list()     # discontinued due to serialization set()
-        self.charging_constant = 1.4
+        self.charging_constant = 2.5
         self.station_provider = station_provider
 
     def add_to_station(self, car_id):
@@ -30,16 +30,19 @@ class Station:
         else:
             raise Exception(f"Car {car_id} is not in station {self.station_id}!")
 
-    def charge_cars(self, core_instance):
-        for car_id in self.occupied_capacity:
-            if core_instance.fleet[car_id].get_state() == core_instance.fleet[car_id].CHARGING:
-                battery_lvl = core_instance.fleet[car_id].get_battery_level() + self.charging_constant
-                core_instance.fleet[car_id].set_battery_level(min(battery_lvl, 100))
-                # only charge the car if it is not full
-                # if 0 < battery_lvl <= 100:
-                #     print(f"Charging car {car_id} at station {self.station_id}! "
-                #           f"Previous battery level: {core_instance.fleet[car_id].get_battery_level()}% "
-                #           f"Current battery level: {battery_lvl}%")
+    # moved to car
+    # def charge_cars(self, core_instance):
+    #     # print("capacity: ", self.occupied_capacity)
+    #     for car_id in self.occupied_capacity:
+    #         if core_instance.fleet[car_id].get_state() == core_instance.fleet[car_id].CHARGING:
+    #             battery_lvl = core_instance.fleet[car_id].get_battery_level() + self.charging_constant
+    #             print("Charging car: ", car_id, " to: ", battery_lvl)
+    #             core_instance.fleet[car_id].set_battery_level(min(battery_lvl, 100))
+    #             # only charge the car if it is not full
+    #             # if 0 < battery_lvl <= 100:
+    #             #     print(f"Charging car {car_id} at station {self.station_id}! "
+    #             #           f"Previous battery level: {core_instance.fleet[car_id].get_battery_level()}% "
+    #             #           f"Current battery level: {battery_lvl}%")
 
     def has_space(self):
         return self.total_capacity > len(self.occupied_capacity)

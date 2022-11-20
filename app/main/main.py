@@ -1,3 +1,5 @@
+import os
+
 from app.main.Core import Core
 import pickle
 import time
@@ -8,6 +10,7 @@ from app.controllers.Stations import Stations
 
 
 def get_initial_state():
+    # TODO add coordinate override
     with open("../../data/test_scenarios/scenario_1/init_cars.json", "r") as f:
         init_state = json.load(f)
     print(init_state)
@@ -51,7 +54,6 @@ def get_core_update():
 
 def main():
     core = Core(10)
-
     initial_state = get_initial_state()
     # stations have to be initialized first, because cars will update their capacity
     core.initialize_stations()
@@ -62,23 +64,26 @@ def main():
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
     time_stamp = 0
+    core.pretty_print_car_states()
     while core.get_current_simulation_step() > 0:
-        print(f"\nSimulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
+        print(f"\rSimulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
 
-        # update_core = trip_history[str(time_stamp)]
-        # if len(trip_history) > time_stamp else trip_history["3"]  # get_core_update()
+        # only update needed
         core.update_fleet()
 
         # frontend stuff
         stations = core.get_stations()
         fleet = core.get_fleet()
 
-        # with open('data/stations_current.pickle', 'wb') as outfile:
-        #     pickle.dump(stations, outfile)
-        #
-        # with open('data/fleet_current.pickle', 'wb') as outfile:
-        #     pickle.dump(fleet, outfile)
+        # TODO update stations
+        root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
+        with open(root_path + "data/stations_current.pickle", "wb") as outfile:
+            pickle.dump(stations, outfile)
 
+        with open(root_path + "data/fleet_current.pickle", "wb") as outfile:
+            pickle.dump(fleet, outfile)
+
+        core.pretty_print_car_states()
         # time.sleep(1)
         #
         # controller_stations.update(stations)

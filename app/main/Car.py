@@ -38,8 +38,6 @@ class Car:
 
             # updates all necessary values
             self.update_position(new_lat, new_long)
-        else:
-            return
         # should be update last
         self.update_state(core_instance)
 
@@ -63,6 +61,7 @@ class Car:
             # else state stays the same
         elif self.state == self.FREE:
             if self.battery_lvl < 80.0:
+                self.attach_to_station(core_instance)
                 self.state = self.CHARGING
             else:
                 self.state = np.random.choice([self.FREE, self.BOOKED], 1, p=[0.8, 0.2])[0]
@@ -71,8 +70,12 @@ class Car:
                     core_instance.stations[self.id_charging_station].detach_from_station(self.car_id)
         elif self.state == self.CHARGING:
             if self.battery_lvl > 95.0:
+                self.attach_to_station(core_instance)
                 self.state = self.FREE
-            # else we keep it the same
+            else:
+                # we keep it the same and charge battery
+                self.increase_battery_level(core_instance)
+
         else:
             raise Exception(f"Car id '{self.car_id}' has an invalid state!")
 
@@ -81,6 +84,10 @@ class Car:
         self.battery_lvl -= 5
         if self.battery_lvl <= 20:
             self.battery_lvl += random.randint(50, 85)
+
+    def increase_battery_level(self, core_instance):
+        new_battery_lvl = core_instance.fleet[self.car_id].get_battery_level() + 2.5
+        self.battery_lvl = min(new_battery_lvl, 100)
 
     def update_position(self, latitude, longitude):
         self.latitude = latitude
@@ -100,52 +107,6 @@ class Car:
                 return False
         else:
             raise Exception(f"Battery level must be between 0 and 100! Car id '{self.car_id}'")
-
-    # def update_state_and_station(self, station_id, state, core_instance):
-    #     # if state changed
-    #     if self.state != state:
-    #         # if the car was booked it can only go to returning
-    #         if self.state == self.BOOKED:
-    #             if state == self.RETURNING:
-    #                 if station_id is not None:
-    #                     self.state = state
-    #                     self.attach_to_station(core_instance)
-    #                 else:
-    #                     raise Exception(f"Car id '{self.car_id}' is booked and can only go to "
-    #                                     f"returning state if it has a charging station id!")
-    #             else:
-    #                 raise Exception(f"Car id '{self.car_id}' was booked and can only go to returning!")
-    #         elif self.state == self.RETURNING:
-    #             if state == self.FREE or state == self.CHARGING:
-    #                 self.state = state
-    #             else:
-    #                 raise Exception(f"Car id '{self.car_id}' was returning and can only go to free or charging!")
-    #         elif self.state == self.FREE:
-    #             if state == self.BOOKED:
-    #                 # car can be booked TODO remove destination
-    #                 self.state = state
-    #                 if station_id is not None:
-    #                     raise Exception(f"Car id '{self.car_id}' was booked and should not have a station_id")
-    #                 self.id_charging_station = None
-    #             elif state == self.CHARGING:
-    #                 # it can also be plugged in
-    #                 self.state = state
-    #             else:
-    #                 raise Exception(f"Car id '{self.car_id}' was free and can only go to booked or charging!")
-    #         elif self.state == self.CHARGING:
-    #             if state == self.BOOKED:
-    #                 # car can be booked TODO remove destination
-    #                 pass
-    #             elif state == self.FREE:
-    #                 # it can also be unplugged preferably if full
-    #                 pass
-    #             else:
-    #                 raise Exception(f"Car id '{self.car_id}' was charging and can only go to booked or free!")
-    #         else:
-    #             raise Exception(f"Car id '{self.car_id}' has an invalid state!")
-
-    # def update_charging_station(self, station_id):
-    #     self.id_charging_station = station_id
 
     def get_battery_level(self):
         return self.battery_lvl
@@ -173,3 +134,8 @@ class Car:
 
     def get_state(self):
         return self.state
+
+    def get_charging_station(self):
+        if self.id_charging_station is None:
+            return "None"
+        return self.id_charging_station
