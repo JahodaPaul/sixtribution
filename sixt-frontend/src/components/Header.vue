@@ -10,6 +10,6 @@
     <div class="text-3xl font-bold self-center pt-1">ribution</div>
     </router-link>
     </div>
-    <div class="text-3xl font-bold self-center pt-1 text-right">{{['map', '', '/'].includes($route.name)? "Rent" : "Drive"}}</div>
+    <div class="text-3xl font-bold self-center pt-1 text-right">{{['driver'].includes($route.name)? "Drive" : "Rent"}}</div>
   </div>
 </template>
