@@ -62,6 +62,8 @@ class Car:
             # if the car is less than 100 meters away from the charging station, attach it to the station
             if distance_to_station < 100:
                 # TODO set car location to the same one as the station
+                self.update_position(latitude=core_instance.stations[self.id_charging_station].get_position()[0],
+                                     longitude=core_instance.stations[self.id_charging_station].get_position()[1])
                 if self.battery_lvl >= 80.0:
                     self.state = self.FREE
                 else:

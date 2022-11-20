@@ -11,21 +11,21 @@
         "latitude": 20.2,
         "longitude": 55.2,
         "battery_level": 50,
-        "station_id": 0,
+        "station_id": 6553380742,
         "state": "free"
     },
     "2": {
         "latitude": 20.2,
         "longitude": 43.2,
         "battery_level": 50,
-        "station_id": 0,
+        "station_id": 6553395146,
         "state": "free"
     },
     "3": {
         "latitude": 20.2,
         "longitude": 43.2,
         "battery_level": 50,
-        "station_id": 0,
+        "station_id": 5539187643,
         "state": "charging"
     }
   }
