@@ -4,8 +4,15 @@ import {onMounted, ref, watch} from "vue";
 import {useRoute} from 'vue-router'
 
 const route = useRoute()
-
+let zoom = 15
 const map = ref(null)
+
+const address = ref(null)
+const getAddress = async () => {
+  return await fetch('https://maps.googleapis.com/maps/api/geocode/json?address='+
+      encodeURIComponent('Brienner Str. 56, 80333 München') + '&key=AIzaSyCDzbtVQ0VGI-EaoCJat7kdT_vLAeSCcD4')
+      .then((res) => res.json())
+}
 
 var directionsService;
 var directionsDisplay;
@@ -27,10 +34,21 @@ watch(() => map.value?.ready, (ready) => {
   directionsDisplay.setMap(map.value.map);
 })
 
-const myPosition = ref({lat: 48.141922, lng: 11.558181})
+watch(() => address.value, (addr) => {
+  let loc = addr?.results[0].geometry.location
+  console.log(addr?.results[0].geometry.location)
+  if (loc) {
+    center.lat = loc.lat
+    center.lng = loc.lng
+    zoom = 15
+  }
+  console.log(center)
+})
+
+const myPosition = ref( { lat: 48.1576827, lng: 11.4594431 })
 
 
-const center = { lat: 48.145, lng: 11.550 }
+const center =  { lat: 48.1476827, lng: 11.5594431 }
 
 const showingRoute = ref(false)
 
@@ -77,6 +95,8 @@ const sixts = [{
 
 const markerIcon = "src/assets/s_pin.png"
 const chargingIcon = "src/assets/c_pin.png"
+const myLocationIcon = "src/assets/my_icon.png"
+const myHomeIcon = "src/assets/h_pin.png"
 
 const getSixtInfo = (marker) => {
   const info = `<p><b>SIXT station</b></p>
@@ -119,6 +139,7 @@ onMounted(async () => {
   console.log("onmounted ended")
   console.log(v)
   console.log(v.latitude)
+  address.value = await getAddress()
 });
 </script>
 
@@ -128,7 +149,7 @@ onMounted(async () => {
       api-key="AIzaSyCDzbtVQ0VGI-EaoCJat7kdT_vLAeSCcD4"
       style="width: 100%; height: 100%;"
       :center="center"
-      :zoom="10"
+      :zoom="zoom"
   >
     <template v-for="marker in sixts">
       <Marker :options='{ position: marker.position, icon: markerIcon }'>
@@ -141,6 +162,12 @@ onMounted(async () => {
         <InfoWindow :options="{ position: {lat: Number(chst.latitude), lng: Number(chst.longitude)}, content: getChargingInfo(chst)}" />
       </Marker>
     </template>
+
+
+    <Marker :options='{ position: myPosition, icon: myLocationIcon }'>
+    </Marker>
+    <Marker :options='{ position: center, icon: myHomeIcon }'>
+    </Marker>
   </GoogleMap>
   </div>
 </template>

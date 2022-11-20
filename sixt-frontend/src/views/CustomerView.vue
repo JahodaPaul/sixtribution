@@ -4,7 +4,7 @@ import {useRouter} from 'vue-router'
 
 const router = useRouter()
 
-const homeAddress = ref("Boltzmannstr. 3, 85748 Garching")
+const homeAddress = ref("Brienner Str. 56, 80333 München")
 
 const endDate = Date.UTC(2022, 11, 20, 10, 0)
 const today = Date.UTC(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate(), new Date().getHours(), new Date().getMinutes())

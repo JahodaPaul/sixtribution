@@ -6,6 +6,14 @@ import {useRoute} from 'vue-router'
 
 const route = useRoute()
 
+const fleet = ref(null)
+onMounted(async () => {
+  const res = await fetch('http://131.159.199.176:5000/api/fleet').then((res) => res.json())
+  fleet.value = Object.values(res).map(v => JSON.parse(v))
+  let v = fleet.value[0]
+  console.log(v)
+});
+
 const map = ref(null)
 
 var directionsService;
@@ -26,6 +34,7 @@ watch(() => map.value?.ready, (ready) => {
   directionsService = new map.value.api.DirectionsService();
   directionsDisplay = new map.value.api.DirectionsRenderer();
   directionsDisplay.setMap(map.value.map);
+
 })
 
 const myPosition = ref({lat: 48.141922, lng: 11.558181})
@@ -51,15 +60,14 @@ const cars = [{
 }];
 const center = { lat: 48.145, lng: 11.550 }
 
-const carIcon = "src/assets/c_pin.png"
+const carIcon = "src/assets/w_pin.png"
 const myLocationIcon = "src/assets/my_icon.png"
 
 const getCarInfo = (marker) => {
   const info = `<p><b>Car to pick up</b></p>
-                ${marker.name}<br>
-                ${marker.addr}<br>
+                <img class="h-[100px]" src="src/assets/cars/a2786d1a61ec2647f210be504202ec10f9fc7999.png"/><br>
                 <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
-                    onclick="window.location.href = '/driver#lat=${marker.position.lat}&lng=${marker.position.lng}'">Pick up and drive!</div>`
+                    onclick="window.location.href = '/driver#lat=${marker.latitude}&lng=${marker.latitude}'">Pick up and drive!</div>`
   return info
 }
 
@@ -106,9 +114,9 @@ const setMarkers = () => {
                  :center="center"
                  :zoom="10"
       >
-        <template v-for="marker in cars">
-          <Marker :options='{ position: marker.position, icon: carIcon }'>
-            <InfoWindow :options="{ position: marker.position, content: getCarInfo(marker)}" />
+        <template v-for="marker in fleet">
+          <Marker :options='{ position: {lat: Number(marker.latitude), lng: Number(marker.longitude)}, icon: carIcon }'>
+            <InfoWindow :options="{ position: {lat: Number(marker.latitude), lng: Number(marker.longitude)}, content: getCarInfo(marker)}" />
           </Marker>
         </template>
         <Marker :options='{ position: myPosition, icon: myLocationIcon }'>

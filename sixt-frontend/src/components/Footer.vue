@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="bottom w-full px-8 flex flex-col pb-4 pt-2 text-gray-400" v-if="!['driver'].includes($route.name)">
+  <div class="bottom w-full px-8 flex flex-col pb-4 pt-2 text-gray-400" v-if="['home'].includes($route.name)">
     <div class="flex flex-row">
       <img alt="SIXT logo" class="logo h-[40px] w-[40px]" src="@/assets/sixt-gray.svg" />
       <div class="text-sm font-bold self-center pt-1">ribution</div>
