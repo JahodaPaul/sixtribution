@@ -43,7 +43,7 @@ let interval = setInterval(() => {
       <div class="flex flex-row justify-around">
         <div class="flex flex-col">
           <img alt="battery" class="h-[70px] w-[70px]" src="@/assets/icon_bat.png" />
-          <div class="text-3xl font-bold text-center">70%</div>
+          <div class="text-3xl font-bold text-center">42%</div>
           <div class="text-xs text-center">battery state</div>
         </div>
         <div class="flex flex-col">

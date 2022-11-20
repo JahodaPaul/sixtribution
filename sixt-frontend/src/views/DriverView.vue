@@ -9,7 +9,7 @@ const route = useRoute()
 const fleet = ref(null)
 onMounted(async () => {
   const res = await fetch('http://131.159.199.176:5000/api/fleet').then((res) => res.json())
-  fleet.value = Object.values(res).map(v => JSON.parse(v))
+  fleet.value = Object.values(res).map(v => JSON.parse(v)).slice(10, 20)
   let v = fleet.value[0]
   console.log(v)
 });
@@ -67,7 +67,7 @@ const getCarInfo = (marker) => {
   const info = `<p><b>Car to pick up</b></p>
                 <img class="h-[100px]" src="src/assets/cars/a2786d1a61ec2647f210be504202ec10f9fc7999.png"/><br>
                 <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
-                    onclick="window.location.href = '/driver#lat=${marker.latitude}&lng=${marker.latitude}'">Pick up and drive!</div>`
+                    onclick="window.location.href = '/driver#lat=${marker.latitude}&lng=${marker.longitude}'">Pick up and drive!</div>`
   return info
 }
 
@@ -75,13 +75,17 @@ const getCarInfo = (marker) => {
 const Route = (end) => {
   console.log("called route with arguments: ")
   console.log(end)
-  //var start = new map.value.api.LatLng(48.141922, 11.558181);
+  var start = new map.value.api.LatLng(48.141922, 11.558181);
+  console.log(start)
+  var start2 = {lat: 48.141922, lng: 11.558181}
+  console.log(start2)
   //var end = new map.value.api.LatLng(48.140033, 11.566841);
   var request = {
-    origin: myPosition.value,
+    origin: start2,
     destination: end,
     travelMode: map.value.api.TravelMode.TRANSIT
   };
+  console.log(request)
   console.log(request)
   directionsService.route(request, function(result, status) {
     if (status == map.value.api.DirectionsStatus.OK) {
@@ -112,7 +116,7 @@ const setMarkers = () => {
                  api-key="AIzaSyCDzbtVQ0VGI-EaoCJat7kdT_vLAeSCcD4"
                  style="width: 100%; height: 100%;"
                  :center="center"
-                 :zoom="10"
+                 :zoom="12"
       >
         <template v-for="marker in fleet">
           <Marker :options='{ position: {lat: Number(marker.latitude), lng: Number(marker.longitude)}, icon: carIcon }'>

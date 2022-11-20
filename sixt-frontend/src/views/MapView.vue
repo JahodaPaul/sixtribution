@@ -91,7 +91,111 @@ const sixts = [{
   },
   id: 1,
   addr: "Karlsplatz 3, 80335 München"
-}];
+},
+  {
+    name: "Munich Airport (DE)",
+    position: {
+      lat: 48.353919982910156,
+      lng: 11.7872896194458
+    },
+    addr: "Terminalstr. Mitte/MWZ, 85356 München"
+  },
+  {
+    name: "Munich Pasing Station 24h (DE)",
+    position: {
+      lat: 48.14899444580078,
+      lng: 11.461827278137207
+    },
+    addr: "Josef-Felder-Str. 53, 81241 München"
+  },
+  {
+    name: "Munich Laim Train Station",
+    position: {
+      lat: 48.14612579345703,
+      lng: 11.503302574157715
+    },
+    addr: "Wotanstr. 9, 80639 München"
+  },
+  {
+    name: "Munich Sendling ",
+    position: {
+      lat: 48.11296081542969,
+      lng: 11.516751289367676
+    },
+    addr: "Luise-Kiesselbach-Platz 35, 81377 München"
+  },
+  {
+    name: "Munich/Hotel Bayerischer Hof",
+    position: {
+      lat: 48.1405029296875,
+      lng: 11.573044776916504
+    },
+    addr: "Promenadenplatz 2-6, 80333 München"
+  },
+  {
+    name: "Munich Schwabing",
+    position: {
+      lat: 48.17815399169922,
+      lng: 11.591404914855957
+    },
+    addr: "Anni-Albers-Strasse 11, 80807 München"
+  },
+  {
+    name: "Munich/Hotel Westin Grand",
+    position: {
+      lat: 48.151790618896484,
+      lng: 11.61715030670166
+    },
+    addr: "Arabellapark, Arabellastr. 6, 81925 München"
+  },
+  {
+    name: "Munich/Hotel City Hilton",
+    position: {
+      lat: 48.13010787963867,
+      lng: 11.592764854431152
+    },
+    addr: "Rosenheimer Str. 15, 81667 München"
+  },
+  {
+    name: "Munich Freiham",
+    position: {
+      lat: 48.13893508911133,
+      lng: 11.411298751831055
+    },
+    addr: "Hans-Stützle-Str. 20, 81249 München"
+  },
+  {
+    name: "Munich Altstadt-Lehel",
+    position: {
+      lat: 48.140403747558594,
+      lng: 11.584742546081543
+    },
+    addr: "Seitzstr. 9-11, 80538 München"
+  },
+  {
+    name: "Munich Messestadt Riem",
+    position: {
+      lat: 48.13224792480469,
+      lng: 11.690564155578613
+    },
+    addr: "Willy-Brandt-Platz 5, 81829 München"
+  },
+  {
+    name: "Munich Giesing",
+    position: {
+      lat: 48.10932540893555,
+      lng: 11.579368591308594
+    },
+    addr: "Tegernseer Landstr. 163, 81539 München"
+  },
+  {
+    name: "Munich Haidhausen 24h",
+    position: {
+      lat: 48.136329650878906,
+      lng: 11.608949661254883
+    },
+    addr: "Einsteinstr. 106, 81675 München"
+  }];
 
 const markerIcon = "src/assets/s_pin.png"
 const chargingIcon = "src/assets/c_pin.png"
