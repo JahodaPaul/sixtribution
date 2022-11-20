@@ -1,28 +1,23 @@
 import os
 
-from app.main.Core import Core
 import pickle
 import time
-import json
 
-from Core import Core
+from app.main.Core import Core
 from app.controllers.Stations import Stations
 
 
-def get_initial_state(file_name):
-    with open(file_name, "r") as f:
-        init_state = json.load(f)
-
-    return init_state
-
-
-def main():
+def main(n_time_steps):
+    """
+    Main entry point of the simulation. The function create a Core instance and populates it with the necessary data.
+    It then simulates car movement/charging/booking for n_time_steps.
+    """
     root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
-    core = Core(200)
-    initial_state = get_initial_state(root_path + "./data/scenario_initializations/init_cars_scenario_1.json")
+    core = Core(n_time_steps)
+
     # stations have to be initialized first, because cars will update their capacity
     core.initialize_stations(root_path + "./data/stations.txt")
-    core.initialize_fleet(initial_state["cars"])
+    core.initialize_fleet(root_path + "./data/scenario_initializations/init_cars_scenario_1.json")
 
     controller_stations = Stations()
 
@@ -53,4 +48,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(100)

@@ -1,3 +1,4 @@
+import json
 import os
 
 import numpy as np
@@ -13,19 +14,6 @@ class Core:
         self.current_simulation_step = self.simulation_duration
         self.fleet = {}
         self.stations = {}
-
-    def initialize_fleet(self, initial_state_dict):
-        for car_id, car_dict in initial_state_dict.items():
-            if car_dict["station_id"] is not None and car_dict["station_id"] not in self.stations:
-                raise Exception(f"Station ID {car_dict['station_id']} not found in the station list! "
-                                f"Please assign a valid station ID to the car {car_id}!")
-
-            self.fleet[car_id] = Car(car_id=car_id,
-                                     longitude=car_dict["longitude"],
-                                     latitude=car_dict["latitude"],
-                                     battery_lvl=car_dict["battery_level"],
-                                     charging_station_id=car_dict["station_id"],
-                                     state=car_dict["state"])
 
     def update_fleet(self):
         # then update all the vehicles and their states
@@ -52,6 +40,22 @@ class Core:
             station = Station(longitude=lon, latitude=lat, total_capacity=capacity, station_id=station_id,
                               station_provider=operator)
             self.stations[station_id] = station
+
+    def initialize_fleet(self, init_file_name):
+        with open(init_file_name, "r") as f:
+            init_state = json.load(f)
+
+        for car_id, car_dict in init_state["cars"].items():
+            if car_dict["station_id"] is not None and car_dict["station_id"] not in self.stations:
+                raise Exception(f"Station ID {car_dict['station_id']} not found in the station list! "
+                                f"Please assign a valid station ID to the car {car_id}!")
+
+            self.fleet[car_id] = Car(car_id=car_id,
+                                     longitude=car_dict["longitude"],
+                                     latitude=car_dict["latitude"],
+                                     battery_lvl=car_dict["battery_level"],
+                                     charging_station_id=car_dict["station_id"],
+                                     state=car_dict["state"])
 
     def find_optimal_station(self, car_id):
         # TODO optimize criteria

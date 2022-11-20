@@ -5,6 +5,14 @@ import numpy as np
 
 
 def generate_scenario(n_of_cars, scenario_path):
+    """
+    Function generates a json scenario file with n_of_cars cars, which get assigned to a random coordinates close to
+    the center of Munich. All cars are initialized with a random battery level between 0 and 100 and a random state
+    "booked" since we then don't have to the link the car to a station.
+
+    :param n_of_cars: Int. Number of cars to be generated.
+    :param scenario_path: String. Path to the scenario file.
+    """
     data_dict = dict()
     data_dict["cars"] = dict()
     munich_coords = (48.13743, 11.57549)
