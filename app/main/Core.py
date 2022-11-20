@@ -24,11 +24,6 @@ class Core:
                                      state=car_dict["state"])
 
     def update_fleet(self):
-        # moved to Car
-        # # first increase battery charge on all cars at stations
-        # for station in self.stations:
-        #     self.stations[station].charge_cars(self)
-
         # then update all the vehicles and their states
         for car_id in self.fleet:
             self.fleet[car_id].update(self)
