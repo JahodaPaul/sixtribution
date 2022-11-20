@@ -42,8 +42,8 @@ class Car:
             new_long = longitude + movement_long * (random.random() * 2)
 
             # extra error handling if something fails
-            new_lat = new_lat if new_lat < 90 else latitude + random.random() * 0.01
-            new_long = new_long if new_long < 180 else longitude + random.random() * 0.01
+            new_lat = new_lat if new_lat < 90 else latitude + random.random() * 0.02
+            new_long = new_long if new_long < 180 else longitude + random.random() * 0.02
 
             # updates all necessary values
             self.update_position(new_lat, new_long)
