@@ -1,13 +1,59 @@
 <script setup>
 import { GoogleMap, Marker, InfoWindow } from 'vue3-google-map';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
+import {useRoute} from 'vue-router'
+
+const route = useRoute()
+
+const map = ref(null)
+
+var directionsService;
+var directionsDisplay;
+
+watch(() => route.hash, (hash) => {
+  let lat, lng;
+  lat = hash.substring(hash.indexOf("lat=")+4, hash.indexOf("lng=")-1)
+  lng = hash.substring(hash.indexOf("lng=")+4)
+  Route({lat: Number(lat), lng: Number(lng)})
+})
+
+watch(() => map.value?.ready, (ready) => {
+  if (!ready) return
+  console.log("map ready")
+  // do something with the api using `mapRef.value.api`
+  // or with the map instance using `mapRef.value.map`
+  directionsService = new map.value.api.DirectionsService();
+  directionsDisplay = new map.value.api.DirectionsRenderer();
+  directionsDisplay.setMap(map.value.map);
+})
+
+const myPosition = ref({lat: 48.141922, lng: 11.558181})
+
 
 const center = { lat: 48.145, lng: 11.550 }
 
-const map = ref(null)
-onMounted(() => {
-  console.log(map)
-})
+const showingRoute = ref(false)
+
+const Route = (end) => {
+  showingRoute.value = true
+  console.log("called route with arguments: ")
+  console.log(end)
+  //var start = new map.value.api.LatLng(48.141922, 11.558181);
+  //var end = new map.value.api.LatLng(48.140033, 11.566841);
+  var request = {
+    origin: myPosition.value,
+    destination: end,
+    travelMode: map.value.api.TravelMode.DRIVING
+  };
+  console.log(request)
+  directionsService.route(request, function(result, status) {
+    if (status == map.value.api.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    } else {
+      alert("couldn't get directions:" + status);
+    }
+  });
+}
 
 const sixts = [{
   s_id: "S_168",
@@ -36,15 +82,16 @@ const getSixtInfo = (marker) => {
   const info = `<p><b>SIXT station</b></p>
                 ${marker.name}<br>
                 ${marker.addr}<br>
-                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer">Return here!</div>`
+                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
+                onclick="window.location.href = '/map#lat=${marker.position.lat}&lng=${marker.position.lng}'">Return here!</div>`
   return info
 }
 
 const getChargingInfo = (marker) => {
   const info = `<p><b>Charging station</b></p>
-                ${marker.name}<br>
-                ${marker.addr}<br>
-                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer">Return here!</div>`
+                ${marker.operator}<br>
+                <div class="rounded-lg bg-black text-white p-2 font-bold mt-2 hover:cursor-pointer"
+                onclick="window.location.href = '/map#lat=${marker.latitude}&lng=${marker.longitude}'">Return here!</div>`
   return info
 }
 
@@ -69,6 +116,9 @@ onMounted(async () => {
   chargingStations.value = Object.values(res).map(v => JSON.parse(v))
   let v = chargingStations.value[0]
   console.log(v)
+  console.log("onmounted ended")
+  console.log(v)
+  console.log(v.latitude)
 });
 </script>
 

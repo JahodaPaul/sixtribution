@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
+import {useRouter} from 'vue-router'
+
+const router = useRouter()
 
 const endDate = Date.UTC(2022, 11, 20, 10, 0)
 const today = Date.UTC(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate(), new Date().getHours(), new Date().getMinutes())
@@ -24,11 +27,11 @@ let interval = setInterval(() => {
 
 <template>
   <div class="px-8">
-    <div class="text-3xl py-2">
+    <div class="text-3xl pt-2">
       My car
     </div>
-    <div class="h-[200px] bg-red-500">
-      Picture of a car
+    <div class="h-[200px]">
+      <img alt="my car" class="h-full" src="@/assets/cars/a2786d1a61ec2647f210be504202ec10f9fc7999.png" />
     </div>
     <div>Rented since: 18. 11. 2022 15:00</div>
     <div>
@@ -40,6 +43,7 @@ let interval = setInterval(() => {
     <div>
       Rental ends in: {{ days > 0? days + "days" : "" }} {{ hours }} hours {{ minutes }} minutes {{ days > 0? seconds + "seconds" : ""}}
     </div>
-  <div class="bg-black text-white p-3 hover:scale-105 rounded-lg fixed hover:cursor-pointer fixed z-90 bottom-10 right-8 text-lg">Return the car</div>
+  <div class="bg-black text-white p-3 hover:scale-105 rounded-lg fixed hover:cursor-pointer fixed z-90 bottom-10 right-8 text-lg"
+  @click="router.push('/map')">Return the car</div>
   </div>
 </template>
