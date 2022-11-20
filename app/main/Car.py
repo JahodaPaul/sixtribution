@@ -24,8 +24,14 @@ class Car:
         if self.state == self.BOOKED and random.choice([True, False]):
             latitude, longitude = self.get_position()
             movement_lat, movement_long = self.get_movement_direction()
+            # info: movement values shouldn't exceed 1 in normal conditions
+
             new_lat = latitude + movement_lat * (random.random() * 2)
             new_long = longitude + movement_long * (random.random() * 2)
+
+            # extra error handling if something fails
+            new_lat = new_lat if new_lat < 90 else latitude + random.random() * 0.01
+            new_long = new_long if new_long < 180 else longitude + random.random() * 0.01
 
             # updates all necessary values
             self.update_position(new_lat, new_long)
@@ -46,14 +52,16 @@ class Car:
             self.state = np.random.choice([self.BOOKED, self.RETURNING], 1, p=[0.8, 0.2])[0]
             if self.state == self.RETURNING:
                 # assign a charging station to the car
-                self.id_charging_station = core_instance.find_optimal_station(self.car_id)
+                # useless -> gets overriten -> self.id_charging_station = core_instance.find_optimal_station(self.car_id)
                 self.attach_to_station(core_instance)
         elif self.state == self.RETURNING:
             # new_state = np.random.choice(["booked", "returning"], 1, p=[0.8, 0.2])[0]
             distance_to_station = core_instance.euclidean_distance(core_instance.fleet[self.car_id].get_position(),
                                                                    core_instance.stations[
                                                                        self.id_charging_station].get_position())
-            if distance_to_station < 0.01:
+            # if the car is less than 100 meters away from the charging station, attach it to the station
+            if distance_to_station < 100:
+                # TODO set car location to the same one as the station
                 if self.battery_lvl >= 80.0:
                     self.state = self.FREE
                 else:
@@ -90,8 +98,7 @@ class Car:
         self.battery_lvl = min(new_battery_lvl, 100)
 
     def update_position(self, latitude, longitude):
-        self.latitude = latitude
-        self.longitude = longitude
+        self.set_position(latitude, longitude)
 
         # each time we update the position we decrease the battery
         self.decrease_battery_level()

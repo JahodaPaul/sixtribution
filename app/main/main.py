@@ -53,7 +53,7 @@ def get_core_update():
 
 
 def main():
-    core = Core(10)
+    core = Core(100)
     initial_state = get_initial_state()
     # stations have to be initialized first, because cars will update their capacity
     core.initialize_stations()
@@ -63,7 +63,6 @@ def main():
 
     # each time stamp corresponds to 1 hour
     total_sim_duration = core.get_total_simulation_duration()
-    time_stamp = 0
     core.pretty_print_car_states()
     while core.get_current_simulation_step() > 0:
         print(f"\rSimulation step {total_sim_duration - core.get_current_simulation_step() + 1} / {total_sim_duration}")
@@ -75,7 +74,6 @@ def main():
         stations = core.get_stations()
         fleet = core.get_fleet()
 
-        # TODO update stations
         root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
         with open(root_path + "data/stations_current.pickle", "wb") as outfile:
             pickle.dump(stations, outfile)
@@ -86,8 +84,8 @@ def main():
         core.pretty_print_car_states()
         # time.sleep(1)
         #
+        # TODO update stations
         # controller_stations.update(stations)
-        time_stamp += 1
 
 
 if __name__ == "__main__":
