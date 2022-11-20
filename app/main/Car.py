@@ -3,10 +3,19 @@ import numpy as np
 
 
 class Car:
+    """
+    Class represents one car, which can be in one of the following states:
+    - booked, returning, free, charging
+    With this class we update the location, battery level and state of the car. The latter of which is dependent on
+    probability estimates in update() method which were selected, so we could get meaningful simulated data.
+    """
     BOOKED = "booked"
     RETURNING = "returning"
     FREE = "free"
     CHARGING = "charging"
+    # variable should be extracted from Station instance, but was moved here due to lack of time
+    INCREASE_BATTERY_CONST = 2.5
+    DECREASE_BATTERY_CONST = 5
 
     def __init__(self, car_id, state, latitude, longitude, battery_lvl, charging_station_id):
         self.car_id = car_id
@@ -20,7 +29,10 @@ class Car:
         self.state = state
 
     def update(self, core_instance):
-
+        """
+        Main method of the class. It decides when the car changes state and what that state is.
+        :param core_instance: Instance of the Core class.
+        """
         if self.state == self.BOOKED and random.choice([True, False]):
             latitude, longitude = self.get_position()
             movement_lat, movement_long = self.get_movement_direction()
@@ -44,7 +56,7 @@ class Car:
 
             # updates all necessary values
             self.update_position(new_lat, new_long)
-        # should be update last
+        # should be updated last
         self.update_state(core_instance)
 
     def update_state(self, core_instance):
@@ -52,16 +64,13 @@ class Car:
             self.state = np.random.choice([self.BOOKED, self.RETURNING], 1, p=[0.8, 0.2])[0]
             if self.state == self.RETURNING:
                 # assign a charging station to the car
-                # useless -> gets overriten -> self.id_charging_station = core_instance.find_optimal_station(self.car_id)
                 self.attach_to_station(core_instance)
         elif self.state == self.RETURNING:
-            # new_state = np.random.choice(["booked", "returning"], 1, p=[0.8, 0.2])[0]
             distance_to_station = core_instance.euclidean_distance(core_instance.fleet[self.car_id].get_position(),
                                                                    core_instance.stations[
                                                                        self.id_charging_station].get_position())
             # if the car is less than 100 meters away from the charging station, attach it to the station
             if distance_to_station < 100:
-                # TODO set car location to the same one as the station
                 self.update_position(latitude=core_instance.stations[self.id_charging_station].get_position()[0],
                                      longitude=core_instance.stations[self.id_charging_station].get_position()[1])
                 if self.battery_lvl >= 80.0:
@@ -90,13 +99,12 @@ class Car:
             raise Exception(f"Car id '{self.car_id}' has an invalid state!")
 
     def decrease_battery_level(self):
-        # update battery
-        self.battery_lvl -= 5
+        self.battery_lvl -= self.DECREASE_BATTERY_CONST
         if self.battery_lvl <= 20:
             self.battery_lvl += random.randint(50, 85)
 
     def increase_battery_level(self, core_instance):
-        new_battery_lvl = core_instance.fleet[self.car_id].get_battery_level() + 2.5
+        new_battery_lvl = core_instance.fleet[self.car_id].get_battery_level() + self.INCREASE_BATTERY_CONST
         self.battery_lvl = min(new_battery_lvl, 100)
 
     def update_position(self, latitude, longitude):
@@ -121,7 +129,7 @@ class Car:
         return self.battery_lvl
 
     def attach_to_station(self, core_instance):
-        # TODO optimize depending on other parameters ->
+        # TODO optimize depending on other parameters
         suggested_station = core_instance.find_optimal_station(self.car_id)
         # set car station
         self.id_charging_station = suggested_station

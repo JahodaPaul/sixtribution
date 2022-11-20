@@ -9,6 +9,10 @@ from app.main.Station import Station
 
 
 class Core:
+    """
+    Class represent a "Simulation Manager" object which controls cars and updates them and the stations accordingly.
+    """
+
     def __init__(self, simulation_length):
         self.simulation_duration = simulation_length
         self.current_simulation_step = self.simulation_duration
@@ -23,10 +27,6 @@ class Core:
         self.current_simulation_step -= 1
 
     def initialize_stations(self, stations_file_name):
-        """
-        :param init_station_state:
-        :return:
-        """
         with open(stations_file_name, "r") as file:
             lines = [line.rstrip() for line in file]
         for line in lines:
